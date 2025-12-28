@@ -24,13 +24,13 @@ selected_gender = col2.selectbox(options=gender,
 df_plot = df[df['Embarked'] == selected_port]
 df_plot = df_plot[df_plot['Sex'] == selected_gender]
 
-plot = px.histogram(data_frame=df_plot,
+hist_plot = px.histogram(data_frame=df_plot,
                     template='seaborn',
                     color='Survived',
                     title='Distribution of Age',
                     facet_col='Survived',
                     x='Age')
-col1.plotly_chart(plot)
+col1.plotly_chart(hist_plot)
 
 # create the pie chart using plotly express
 df_plot_pie = df_plot.loc[:, ['PassengerId', 'Survived']].groupby('Survived').count().reset_index()
@@ -45,3 +45,11 @@ pie_plot = px.pie(data_frame=df_plot_pie,
                   names='Survived')
 col2.plotly_chart(pie_plot)
 
+# add a boxplot of the fare prices
+box_plot = px.box(data_frame=df_plot,
+              y='Fare',
+              color='Survived',
+              template='seaborn',
+              title='Distribution of Fare across survival status',
+              x='Survived')
+st.plotly_chart(box_plot)
